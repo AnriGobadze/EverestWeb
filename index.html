@@ -3,233 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sagarmatha: An Explorer's Journal</title>
-    
+    <title>Sagarmatha: The Ascent</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,600&family=Cormorant+Garamond:wght@400;700&display=swap" rel="stylesheet">
-
-    <style>
-        /*
-        ========================================
-        ROOT & GLOBAL STYLES
-        ========================================
-        */
-        :root {
-            --heading-font: 'Playfair Display', serif;
-            --body-font: 'Cormorant Garamond', serif;
-
-            --ink-black: #2a251e;
-            --paper-white: #f0ede8;
-            --text-muted: #8a7e6b;
-            --accent-gold: #b38a44;
-            --danger-red: #a82e2e;
-            --border-color: rgba(42, 37, 30, 0.2);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: var(--body-font);
-            font-weight: 700;
-            background-color: var(--ink-black);
-            color: var(--ink-black);
-            overflow-x: hidden;
-        }
-        
-        html {
-           background: var(--ink-black) url('https://www.transparenttextures.com/patterns/dark-matter.png') repeat;
-        }
-
-        /*
-        ========================================
-        NAVIGATION BAR
-        ========================================
-        */
-        .navbar {
-            position: fixed; top: 0; width: 100%; padding: 1rem 0;
-            z-index: 1000; transition: all 0.4s ease-out; background-color: rgba(26, 26, 26, 0.4);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(240, 237, 232, 0.2);
-        }
-        .nav-container { display: flex; justify-content: center; align-items: center; }
-        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-        .nav-link a {
-            font-size: 1rem; font-family: var(--heading-font); letter-spacing: 1px; color: var(--paper-white);
-            position: relative; padding: 0.5rem 0; transition: color 0.3s ease;
-        }
-        .nav-link a::after {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
-            background-color: var(--accent-gold); transform: scaleX(0); transform-origin: right;
-            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .nav-link a:hover { color: var(--accent-gold); }
-        .nav-link a:hover::after { transform: scaleX(1); transform-origin: left; }
-        
-        /*
-        ========================================
-        HERO SECTION
-        ========================================
-        */
-        .hero { min-height: 100vh; position: relative; display: flex; text-align: left; align-items: center; justify-content: center; overflow: hidden; padding: 0 2rem; }
-        .hero-background-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; z-index: -2; object-fit: cover; }
-        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(10,10,10,0.1) 30%, rgba(10,10,10,0.9) 85%); z-index: -1; }
-        
-        .hero-content { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 4rem; max-width: 1100px; }
-        .hero-text-content { max-width: 500px; }
-        .hero h1 { font-family: var(--heading-font); font-size: clamp(3.5rem, 7vw, 6rem); letter-spacing: 2px; color: var(--paper-white); text-shadow: 0 2px 30px rgba(0,0,0,0.7); line-height: 1.1; }
-        .hero-intro { font-family: var(--body-font); font-size: 1.25rem; line-height: 1.7; font-style: italic; max-width: 45ch; margin-top: 1.5rem; color: rgba(240, 237, 232, 0.85); border-left: 3px solid var(--accent-gold); padding-left: 1.5rem; }
-        .hero-photo-container { flex-shrink: 0; }
-        .hero-photo { width: 300px; height: auto; border: 12px solid var(--paper-white); border-radius: 4px; box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.5); transform: rotate(3deg); transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
-        .hero-photo:hover { transform: rotate(-1deg) scale(1.05); }
-
-        /* --- BACKGROUND & SECTION STRUCTURE --- */
-
-        .full-background-section { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 5rem 0; background-size: cover; background-position: center center; background-attachment: fixed; box-shadow: inset 0 0 250px rgba(0,0,0,0.8); }
-        .full-background-section:not(.hero)::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(26, 26, 26, 0.4); }
-        #spiritual { background-image: url('https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070'); }
-        #science { background-image: url('https://images.unsplash.com/photo-1616182189601-6547f86f78a7?q=80&w=2070'); }
-        #routes { background-image: url('https://images.unsplash.com/photo-1528923138493-16433dec6084?q=80&w=1951'); }
-        .entry-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; display: flex; align-items: center; width:100%; }
-        .entry-container.align-right { justify-content: flex-end; }
-        .entry-container.align-left { justify-content: flex-start; }
-        .entry-container.align-center { justify-content: center; }
-        
-        /* --- JOURNAL ENTRY PANES --- */
-        .journal-entry { position: relative; background: var(--paper-white) url('https://www.transparenttextures.com/patterns/paper-fibers.png'); padding: 3rem 4rem; width: 55%; min-width: 600px; border: 1px solid var(--border-color); box-shadow: 0 15px 45px rgba(0,0,0,0.5); color: var(--ink-black); opacity: 0; transform: translateY(50px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-        .journal-entry.is-visible { opacity: 1; transform: translateY(0); }
-        .entry-meta { font-family: monospace; font-size: 0.9rem; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; }
-        .entry-title { font-family: var(--heading-font); font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 0.5rem; color: var(--ink-black); }
-        .entry-subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; font-style: italic; font-weight: 400; }
-        .journal-entry p { line-height: 1.9; font-size: 1.1rem; margin-bottom: 2rem; }
-        .journal-entry::before, .journal-entry::after { content: ''; position: absolute; width: 0; height: 0; border: 2px solid transparent; transition: width 0.5s ease-out 0.5s, height 0.5s ease-out 0.5s; }
-        .journal-entry::before { top: 1rem; left: 1rem; border-top-color: var(--border-color); border-left-color: var(--border-color); }
-        .journal-entry::after { bottom: 1rem; right: 1rem; border-bottom-color: var(--border-color); border-right-color: var(--border-color); }
-        .journal-entry.is-visible::before, .journal-entry.is-visible::after { width: calc(100% - 2rem); height: calc(100% - 2rem); }
-        
-        /*
-        ========================================
-        STYLES FOR THE WIDER MAP SECTION
-        ========================================
-        */
-        #routes .journal-entry {
-            width: 75%; /* Increase width for panoramic feel */
-            min-width: 900px;
-        }
-        
-        #routes .entry-title { font-size: 3rem; }
-        #routes .entry-subtitle { font-size: 1.1rem; }
-
-        .map-container { position: relative; margin-top: 1.5rem; }
-        .map-svg { stroke: var(--text-muted); stroke-width: 3px; fill: none; width: 100%; height: auto; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2)); }
-        .map-svg .route { stroke-dasharray: 1000; stroke-dashoffset: 1000; transition: stroke-dashoffset 4s cubic-bezier(0.455, 0.03, 0.515, 0.955); stroke: var(--danger-red); stroke-width: 5px; }
-        .journal-entry.is-visible .map-svg .route { stroke-dashoffset: 0; }
-        .map-label { position: absolute; background-color: var(--paper-white); border: 1px solid var(--border-color); padding: 0.2rem 0.6rem; font-size: 0.9rem; font-weight: 700; color: var(--ink-black); opacity: 0; transition: opacity 1s ease-in 2s; }
-        .journal-entry.is-visible .map-label { opacity: 1; }
-        
-        /* Adjusted label positions for the new wider map */
-        .label-basecamp { top: 80%; left: 3%; }
-        .label-khumbu { top: 50%; left: 35%; }
-        .label-summit { top: 5%; left: 88%; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- === NAVBAR MODIFIED: MOVED OUTSIDE OF HERO SECTION === -->
     <header class="navbar">
-        <div class="nav-container">
-            <nav><ul class="nav-links">
-                <li class="nav-link"><a href="#home">LOGBOOK</a></li>
-                <li class="nav-link"><a href="#spiritual">CHOMOLUNGMA</a></li>
-                <li class="nav-link"><a href="#science">THE DEATH ZONE</a></li>
-                <li class="nav-link"><a href="#routes">THE ASCENT</a></li>
-            </ul></nav>
+        <div class="navbar-container">
+            <a href="#" class="logo">THE SAGARMATHA PROJECT</a>
+            <nav>
+                <ul>
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="#">THE EXPEDITION</a></li>
+                    <li><a href="#">GALLERY</a></li>
+                    <li><a href="#">ABOUT</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <main>
+    <!-- HERO SECTION WRAPPER (Now starts here) -->
+    <section class="hero-section">
+        <!-- 2. MAIN HERO CONTENT -->
+        <div class="hero-content-container">
+            <div class="hero-text-content">
+                <div class="hero-icons">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
+                    <span class="separator-line"></span>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg>
+                </div>
+                <h1>THE ASCENT BECOMES THE TRUTH</h1>
+                <p>An immersive exploration of the world's highest peak, its myths, and the mortals who dare to climb it.</p>
+            </div>
+            <!-- Right Column: Image -->
+            <div class="hero-image-container">
+                <div class="image-reveal-overlay"></div>
+                <div class="glitch-line"></div>
+                <img src="https://images.squarespace-cdn.com/content/v1/55d729cfe4b00ab3960e7989/14d73e19-7b09-43b3-aac5-471c4e1fd4fe/Annapurna+1+expedition+33.jpg" alt="A climber on a narrow snow ridge, symbolizing the expedition.">
+            </div>
+        </div>
+        <!-- Scroll Down Indicator -->
+        <div class="scroll-down-indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline></svg>
+        </div>
+    </section>
 
-        <section id="home" class="full-background-section hero">
-            <video class="hero-background-video" autoplay muted loop poster="https://i.imgur.com/kGv0jC6.jpg">
-                 <source src="https://www.videvo.net/videvo_files/converted/2014_10/preview/Everest_from_Kala_Patthar.mov74825.webm" type="video/webm">
-            </video>
-            <div class="hero-content">
-                <div class="hero-text-content">
-                    <h1>Sagarmatha</h1>
-                    <p class="hero-intro">This logbook is a testament to the brutal beauty of the sacred mountain. Within these pages are reflections on the spirits that guard her, the science that defines survival on her slopes, and the lines we trace towards her summit...</p>
-                </div>
-                <div class="hero-photo-container">
-                    <img src="https://www.ephotozine.com/resize/articles/21924/S0001423.jpg?RTUdGk5cXyJFCgsJVANtdxU+cVRdHxFYFw1Gewk0T1JYFEtzen5YdgthHHsvEVxR" alt="Vintage photo of Tenzing Norgay on the summit of Everest" class="hero-photo">
-                </div>
-            </div>
-        </section>
-        
-        <section id="spiritual" class="full-background-section">
-            <div class="entry-container align-left">
-                <div class="journal-entry">
-                    <div class="entry-meta">LOG ENTRY: 01 // APRIL 12, 1953</div>
-                    <h2 class="entry-title">The Goddess Mother</h2>
-                    <p class="entry-subtitle">She is known as Chomolungma, the heart of the world.</p>
-                    <p>Before any step is taken, we seek her blessing. To the world she is a conquest, but to those who live in her shadow, she is a deity. We do not climb, we are permitted passage. Prayer flags carry our hopes on the wind; the Puja ceremony carries our respect to her icy peaks.</p>
-                </div>
-            </div>
-        </section>
-        
-        <section id="science" class="full-background-section">
-            <div class="entry-container align-right">
-                <div class="journal-entry">
-                     <div class="entry-meta">LOG ENTRY: 02 // MAY 17, 1953</div>
-                     <h2 class="entry-title">The Death Zone</h2>
-                     <p class="entry-subtitle">The body's silent battle above 8,000 meters.</p>
-                     <p>The air here is a ghost. With less than a third of the oxygen at sea level, the body is actively dying. Every moment is a careful calculation of energy, warmth, and time. Judgment clouds, the blood thickens, and the cold is a physical enemy. Acclimatization only buys you a ticket into the zone; it does not grant you residency.</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Modified Routes Section -->
-        <section id="routes" class="full-background-section">
-            <div class="entry-container align-center">
-                 <div class="journal-entry">
-                    <div class="entry-meta">MAP: SOUTHEAST RIDGE ROUTE</div>
-                    <h2 class="entry-title">Tracing the Ascent</h2>
-                    <p class="entry-subtitle" style="margin-bottom: 1rem;">A simple line representing a journey of unimaginable complexity.</p>
-                    <div class="map-container">
-                        <!-- The SVG Viewbox is now wider and less tall (600x250) -->
-                        <svg class="map-svg" viewBox="0 0 600 250">
-                          <!-- The path data is adjusted for the new viewBox dimensions -->
-                          <path d="M30,220 C150,150 300,180 400,100 S500,30 570,20" class="route"/>
-                        </svg>
-                        <div class="map-labels">
-                            <span class="map-label label-basecamp">Base Camp</span>
-                            <span class="map-label label-khumbu">Khumbu Icefall</span>
-                            <span class="map-label label-summit">The Summit</span>
-                        </div>
-                    </div>
-                 </div>
-            </div>
-        </section>
+    <!-- The rest of the HTML is unchanged -->
+    <section class="interlude-section">
+        <div class="interlude-content-container"><h2>THE CHALLENGE</h2><p>A vertical world, where climbers test the absolute limits of endurance in thin, unforgiving air.</p></div>
+        <div class="interlude-content-container"><h2>THE ASCENT</h2><p>A daring ascent to the highest peaks—machines conquering altitude and defying limits to reach where few can go.</p></div>
+    </section>
+        <section id="journey" class="journey-section">
+        <div class="info-panel"><h2 class="panel-title">Ascent Profile</h2><div class="panel-divider"></div><ul class="stats-list"><li><span>ROUTE</span><span>Southeast Ridge</span></li><li><span>ELEVATION</span><span>8,848 Meters</span></li><li><span>DURATION</span><span>~40 Days</span></li></ul><p class="panel-desc">This profile tracks the standard acclimatization journey, highlighting key physiological and environmental challenges at progressive altitudes.</p></div>
+        <div class="journey-container">
+            <svg class="journey-svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet"><path id="mountain-path" d="M 650 550 C 400 300, 400 390, 490 320 S 810 360, 650 250 S 630 220, 640 160 L 710 35"></path></svg>
+            <div class="fact" id="fact1"><div class="fact-text"><h3>4,000 meters</h3><p>Acclimatization becomes critical. The body struggles with reduced oxygen, and altitude sickness is a common risk.</p></div><div class="fact-marker"></div></div>
+            <div class="fact" id="fact2"><div class="fact-marker"></div><div class="fact-text"><h3>6,500 meters</h3><p>The "jet stream" winds can reach hurricane force. Climbers must time their movements between weather windows.</p></div></div>
+            <div class="fact" id="fact3"><div class="fact-marker"></div><div class="fact-text"><h3>8,000 meters</h3><p>Arrival at "The Death Zone." Survival is measured in hours. Without supplemental oxygen, the body begins to shut down.</p></div></div>
+        </div>
+    </section>
+    <section class="highlight-section">
+        <div class="split-container">
+            <div class="split-text"><div class="meta-line"><span>01 // THE PSYCHE</span></div><h2>The Unseen Ascent</h2><p class="lead-paragraph">The true story of the climb is not found on the summit, but in the quiet, unseen moments of discipline and doubt.</p><p>While the goal is the peak, the real journey unfolds at Base Camp, in shared stories within a freezing tent, and during the solitary push against the wind. It's a world where small decisions carry immense weight and success is measured one step at a time.</p><p>This is the internal climb—a relentless confrontation with fear, managed by profound mental fortitude. The mountain demands not just physical strength, but a quiet resilience that defines those who return.</p><div class="button-group"><a href="#" class="btn btn-primary">VIEW THE GALLERY</a><a href="#" class="btn btn-secondary">READ MORE</a></div></div>
+            <div class="split-image"><img src="https://robbreport.com/wp-content/uploads/2023/09/Everest_Feature8.jpg" alt="Tents at Everest Base Camp with mountains in the background."></div>
+        </div>
+    </section>
+    <div class="footer-bottom"><p>© <span id="year">2024</span> Everest • Powered by <a href="https://osgweb.ge/#hero"><img src="OSG.png" alt="OSG Logo"></a></p></div>
 
-    </main>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const observedElements = document.querySelectorAll('.journal-entry');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
-                });
-            }, { threshold: 0.3 });
-            observedElements.forEach(el => observer.observe(el));
-            
-            document.querySelectorAll('.nav-link a').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetElement = document.querySelector(this.getAttribute('href'));
-                    if (targetElement) { targetElement.scrollIntoView({ behavior: 'smooth' }); }
-                });
-            });
-        });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
